@@ -1,9 +1,14 @@
+import { useDispatch, useSelector } from "react-redux"
+
 import { Error, Loader, SongCard } from "../components"
 import { genres } from "../assets/constants"
 import { useGetTopChartsQuery } from "../redux/services/shazam"
 
 const Discover = () => {
-  const { data, isFetching, error } = useGetTopChartsQuery()
+  const dispatch = useDispatch()
+  const { activeSong, isPlaying } = useSelector((state) => state.player) // Global state selector
+
+  const { data, isFetching, error } = useGetTopChartsQuery() // Fetch hook from redux
 
   if (isFetching) return <Loader title="Loading songs..." />
   if (error) return <Error />
@@ -28,8 +33,15 @@ const Discover = () => {
 
       {/* TRACKS */}
       <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
-        {data.tracks.map((song, i) => (
-          <SongCard key={song.key} song={song} i={i} />
+        {data.tracks?.map((song, i) => (
+          <SongCard
+            key={song.key}
+            song={song}
+            isPlaying={isPlaying}
+            activeSong={activeSong}
+            data={data}
+            i={i}
+          />
         ))}
       </div>
     </div>

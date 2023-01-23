@@ -1,20 +1,28 @@
-import { useSelector } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { useSelector } from "react-redux"
+import { Route, Routes } from "react-router-dom"
 
-import { Searchbar, Sidebar, MusicPlayer, TopPlay } from './components';
-import { ArtistDetails, TopArtists, AroundYou, Discover, Search, SongDetails, TopCharts } from './pages';
+import { Searchbar, Sidebar, MusicPlayer, TopPlay } from "./components"
+import {
+  ArtistDetails,
+  TopArtists,
+  AroundYou,
+  Discover,
+  Search,
+  SongDetails,
+  TopCharts,
+} from "./pages"
 
 const App = () => {
-  const { activeSong } = useSelector((state) => state.player);
+  const { activeSong } = useSelector((state) => state.player)
 
   return (
     <div className="relative flex">
       <Sidebar />
-      <div className="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
+      <div className="flex flex-1 flex-col bg-gradient-to-br from-black to-[#121286]">
         <Searchbar />
 
-        <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
-          <div className="flex-1 h-fit pb-40">
+        <div className="hide-scrollbar flex h-[calc(100vh-72px)] flex-col-reverse overflow-y-scroll px-6 xl:flex-row">
+          <div className="h-fit flex-1 pb-40">
             <Routes>
               <Route path="/" element={<Discover />} />
               <Route path="/top-artists" element={<TopArtists />} />
@@ -25,19 +33,19 @@ const App = () => {
               <Route path="/search/:searchTerm" element={<Search />} />
             </Routes>
           </div>
-          <div className="xl:sticky relative top-0 h-fit">
+          <div className="relative top-0 h-fit xl:sticky">
             <TopPlay />
           </div>
         </div>
       </div>
 
       {activeSong?.title && (
-        <div className="absolute h-28 bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg rounded-t-3xl z-10">
+        <div className="absolute bottom-0 left-0 right-0 z-10 flex h-28 animate-slideup rounded-t-3xl bg-gradient-to-br from-white/10 to-[#2a2a80] backdrop-blur-lg">
           <MusicPlayer />
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
