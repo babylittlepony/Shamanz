@@ -1,7 +1,4 @@
-import loader from './loader.svg';
-import logo from './logo.svg';
+import loader from "./loader.svg"
+import logo from "./icons8-earbud-headphones-100(1).png"
 
-export {
-  logo,
-  loader,
-};
+export { logo, loader }
