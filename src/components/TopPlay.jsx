@@ -8,18 +8,59 @@ import PlayPause from "./PlayPause"
 import { playPause, setActiveSong } from "../redux/features/playerSlice"
 import { useGetTopChartsQuery } from "../redux/services/shazam"
 
+// SWIPER MODULE
 import "swiper/css"
 import "swiper/css/free-mode"
+// SWIPER MODULE
 
-const TopChartCard = ({ song, i }) => (
+const defaultImgCover =
+  "https://www.freeiconspng.com/uploads/music-note-icon-16.jpg"
+
+const TopChartCard = ({
+  song,
+  i,
+  isPlaying,
+  activeSong,
+  handlePauseClick,
+  handlePlayClick,
+}) => (
   <div className="mb-2 flex w-full cursor-pointer flex-row items-center rounded-lg p-4 py-2 hover:bg-[#4c426e]">
-    {song.title}
+    <h3 className="mr-3 text-base font-bold text-white">{i + 1}.</h3>
+    <div className="flex flex-1 flex-row justify-between">
+      <img
+        src={
+          song?.images?.coverart === undefined
+            ? defaultImgCover
+            : song?.images?.coverart
+        }
+        alt={song?.title}
+        className="h-20 w-20 rounded-lg"
+      />
+      <div className="mx-3 flex flex-1 flex-col justify-center">
+        <Link to={`/songs/${song.key}`}>
+          <p className="text-xl font-bold text-white">{song.title}</p>
+        </Link>
+        <Link to={`/artists/${song?.artists?.adamid}`}>
+          <p className="mt-3 text-base font-bold text-gray-300">
+            {song?.subtitle}
+          </p>
+        </Link>
+      </div>
+    </div>
+    <PlayPause
+      song={song}
+      isPlaying={isPlaying}
+      activeSong={activeSong}
+      handlePause={handlePauseClick}
+      handlePlay={handlePlayClick}
+    />
   </div>
 )
 
+// CONTENT
 const TopPlay = () => {
   const dispatch = useDispatch()
-  const { setActiveSong, isPlaying } = useSelector((state) => state.player) // Global state selector
+  const { activeSong, isPlaying } = useSelector((state) => state.player) // Global state selector
   const { data } = useGetTopChartsQuery() // Fetch hook from redux
   const divRef = useRef(null)
 
@@ -32,7 +73,7 @@ const TopPlay = () => {
   const handlePauseClick = () => {
     dispatch(playPause(false))
   }
-  const handlePlayClick = () => {
+  const handlePlayClick = (song, i) => {
     dispatch(setActiveSong({ song, data, i }))
     dispatch(playPause(true))
   }
@@ -54,7 +95,15 @@ const TopPlay = () => {
 
         <div className="mt-4 flex flex-col gap-1">
           {topPlays?.map((song, i) => (
-            <TopChartCard key={song.key} song={song} i={i} />
+            <TopChartCard
+              key={song.key}
+              song={song}
+              i={i}
+              isPlaying={isPlaying}
+              activeSong={activeSong}
+              handlePauseClick={handlePauseClick}
+              handlePlayClick={() => handlePlayClick(song, i)}
+            />
           ))}
         </div>
       </div>
@@ -85,7 +134,11 @@ const TopPlay = () => {
             >
               <Link to={`/artists/${artist?.artists?.adamid}`}>
                 <img
-                  src={artist?.images?.background}
+                  src={
+                    artist?.images?.background === undefined
+                      ? defaultImgCover
+                      : artist?.images?.background
+                  }
                   alt="name"
                   className="w-full rounded-full object-cover"
                 />
