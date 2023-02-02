@@ -7,14 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import PlayPause from "./PlayPause"
 import { playPause, setActiveSong } from "../redux/features/playerSlice"
 import { useGetTopChartsQuery } from "../redux/services/shazam"
+import { defaultImgCover } from "../assets/constants"
 
 // SWIPER MODULE
 import "swiper/css"
 import "swiper/css/free-mode"
 // SWIPER MODULE
-
-const defaultImgCover =
-  "https://www.freeiconspng.com/uploads/music-note-icon-16.jpg"
 
 const TopChartCard = ({
   song,

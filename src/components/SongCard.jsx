@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 
 import { playPause, setActiveSong } from "../redux/features/playerSlice"
 import PlayPause from "./PlayPause"
+import { defaultImgCover } from "../assets/constants"
 
 const SongCard = ({ song, isPlaying, activeSong, i, data }) => {
   const dispatch = useDispatch()
@@ -34,7 +35,14 @@ const SongCard = ({ song, isPlaying, activeSong, i, data }) => {
             activeSong={activeSong}
           />
         </div>
-        <img src={song.images?.coverart} alt="song_img" />
+        <img
+          src={
+            song.images?.coverart === undefined
+              ? defaultImgCover
+              : song.images?.coverart
+          }
+          alt="song_img"
+        />
       </div>
 
       {/* Song & Artist tracks */}
