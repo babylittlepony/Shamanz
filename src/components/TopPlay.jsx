@@ -38,7 +38,7 @@ const TopChartCard = ({
         <Link to={`/songs/${song.key}`}>
           <p className="text-xl font-bold text-white">{song.title}</p>
         </Link>
-        <Link to={`/artists/${song?.artists?.adamid}`}>
+        <Link to={`/artists/${song?.artists?.[0].adamid}`}>
           <p className="mt-3 text-base font-bold text-gray-300">
             {song?.subtitle}
           </p>
@@ -130,7 +130,7 @@ const TopPlay = () => {
               style={{ width: "25%", height: "auto" }}
               className="animate-slideright rounded-full shadow-lg"
             >
-              <Link to={`/artists/${artist?.artists?.adamid}`}>
+              <Link to={`/artists/${artist?.artists?.[0].adamid}`}>
                 <img
                   src={
                     artist?.images?.background === undefined
