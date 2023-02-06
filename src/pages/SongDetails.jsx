@@ -1,11 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { DetailsHeader, Error, Loader, RelatedSongs } from "../components"
+import { DetailsHeader, Error, Loader } from "../components"
 import { playPause, setActiveSong } from "../redux/features/playerSlice"
-import {
-  useGetSongDetailsQuery,
-  useGetSongRelatedQuery,
-} from "../redux/services/shazam"
+import { useGetSongDetailsQuery } from "../redux/services/shazam"
 
 const SongDetails = () => {
   const { songid } = useParams() // Params route to fetch from API
@@ -24,19 +21,8 @@ const SongDetails = () => {
   const { data: songData, isFetching: isFetchingSongDetails } =
     useGetSongDetailsQuery({ songid })
 
-  const adamid = songData?.artists[0].adamid
-
-  const {
-    data,
-    isFetching: isFetchingRelatedSongs,
-    error,
-  } = useGetSongRelatedQuery({ adamid })
-
-  if (isFetchingSongDetails || isFetchingRelatedSongs)
-    return <Loader title="Searching song details" />
-
-  if (error) return <Error />
-
+  if (isFetchingSongDetails) return <Loader title="Searching song details" />
+  console.log("SONG DATA", songData)
   return (
     <div className="flex flex-col">
       <DetailsHeader artistId="" songData={songData} />
@@ -55,14 +41,6 @@ const SongDetails = () => {
           )}
         </div>
       </div>
-
-      <RelatedSongs
-        data={data}
-        isPlaying={isPlaying}
-        activeSong={activeSong}
-        handlePauseClick={handlePauseClick}
-        handlePlayClick={handlePlayClick}
-      />
     </div>
   )
 }
