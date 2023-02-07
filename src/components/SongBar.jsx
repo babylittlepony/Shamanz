@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const SongBar = ({ song, i, artistId }) => (
   <div
-    className="mb-2 flex w-full cursor-pointer flex-row items-center rounded-lg
+    className="mb-2 flex w-full  flex-row items-center rounded-lg
      bg-transparent bg-[#5d5577] p-4 py-2"
   >
     <h3 className="mr-3 text-base font-bold text-white">{i + 1}.</h3>
